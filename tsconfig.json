@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "outDir": "./build",
+    "target": "ES2020",
+    "lib": [
+      "dom",
+      "esnext"
+    ],
+    "downlevelIteration": true,
+    "importHelpers": true,
+    "allowJs": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "declaration": true,
+    "types": [
+      "node",
+      "typescript",
+      "jest"
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    "build",
+    "examples"
+  ],
+  "include": [
+    "src"
+  ]
+}
