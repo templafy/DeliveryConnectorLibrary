@@ -1,0 +1,13 @@
+* text eol=crlf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.otf binary
+*.ttf binary
+*.ico binary
+*.docx binary
+*.pptx binary
+*.xlsx binary
+*.pdf binary
+*.zip binary
