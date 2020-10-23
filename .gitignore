@@ -1,0 +1,22 @@
+﻿# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Testing
+/coverage
+
+# Production
+/build
+/bin
+/obj
+
+# Misc
+.DS_Store
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScript Generator files
+/src/lib/generated/
