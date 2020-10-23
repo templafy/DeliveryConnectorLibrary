@@ -1,7 +1,7 @@
 {
   "name": "@templafy/delivery-integration-library",
   "version": "0.4.333-prerelease",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "main": "build/index.js",
   "scripts": {
     "prepublishOnly": "yarn build",
