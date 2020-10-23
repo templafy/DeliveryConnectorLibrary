@@ -6,6 +6,9 @@ trigger:
 pool:
   vmImage: ubuntu-18.04
 
+variables:
+  - group: DeliveryIntegrationLibrary
+
 steps:
   - task: UseGitVersion@5
     inputs:
@@ -30,3 +33,6 @@ steps:
   - script: yarn publish --new-version $(GitVersion.SemVer) --no-git-tag-version
     workingDirectory: ./build
     displayName: 'Yarn publish (DeliveryIntegration Library)'
+
+  - script: 'git push https://$(GitHubToken)@github.com/templafy/DeliveryIntegrationLibrary.git'
+    displayName: Push to GitHub
