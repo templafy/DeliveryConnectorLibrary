@@ -5,8 +5,7 @@
   "main": "build/index.js",
   "scripts": {
     "prepublishOnly": "yarn build",
-    "build": "tsc",
-    "refreshVSToken": "npx vsts-npm-auth -config .npmrc -V quiet"
+    "build": "tsc"
   },
   "types": "build/index.d.ts",
   "files": [
