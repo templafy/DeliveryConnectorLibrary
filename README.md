@@ -23,6 +23,6 @@ All content must be served over HTTPS.
 * The `SendAuthenticationComplete` call must come from the same origin as the popup was opened at.
 
 ### Delivery Connector
-* The Delivery Connector will be hosted in an iframe with sandbox attribute value `allow-scripts allow-forms`.
+* The Delivery Connector will be hosted in an iframe with sandbox attribute value `allow-scripts allow-forms allow-same-origin`.
 * The Connector will be hosted on a page with the `CSP` directive `frame-src` set to the origin of the `BaseURL`  specified in your Custom Delivery Integration settings.
 This means that the connector cannot navigate outside of the original origin.
