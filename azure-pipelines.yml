@@ -19,6 +19,7 @@ steps:
   - task: npmAuthenticate@0
     inputs:
       workingFile: ./.npmrc
+      customEndpoint: 'NPM JS Registry'
     displayName: 'Npm Authenticate'
 
   - script: yarn install
