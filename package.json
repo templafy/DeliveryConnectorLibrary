@@ -2,8 +2,9 @@
   "name": "@templafy/delivery-integration-library",
   "version": "1.1.0",
   "description": "Allows external vendors to create custom delivery options for documents created within Templafy. This allows Templafy users to authenticate with, choose a save location in, and save created documents directly to an external system.",
-  "homepage": "https://github.com/templafy/DeliveryIntegrationLibrary",
+  "homepage": "https://www.templafy.com/",
   "bugs": "https://github.com/templafy/DeliveryIntegrationLibrary/issues",
+  "repository": "github:templafy/DeliveryIntegrationLibrary",
   "license": "MIT",
   "main": "build/index.js",
   "scripts": {
