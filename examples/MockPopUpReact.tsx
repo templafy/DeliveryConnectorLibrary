@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from "react";
-import {sendAuthenticationComplete} from "@templafy/delivery-integration-library/build/react";
+import {sendAuthenticationComplete} from "@templafy/delivery-connector-library/build/react";
 
 export const MockPopUpReact: FunctionComponent = () => {
     const sendAuthenticationMessage = (authenticationSuccessful: boolean) => {
@@ -8,14 +8,17 @@ export const MockPopUpReact: FunctionComponent = () => {
 
     return (
         <>
-            <h1>Hello from Pop up</h1>
+            <h1>Hello from Popup</h1>
             <button
                 onClick={() => sendAuthenticationMessage(true)}
-            />
-            ./src/playground/DeliveryIntegration/MockConnectorReact.tsx
+            >
+                Authentication succeeded
+            </button>
             <button
                 onClick={() => sendAuthenticationMessage(false)}
-            />
+            >
+                Authentication failed
+            </button>
         </>
     );
 };

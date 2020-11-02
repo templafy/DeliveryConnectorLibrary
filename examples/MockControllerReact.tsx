@@ -1,8 +1,8 @@
 import React, {FunctionComponent, useEffect} from "react";
-import {useDocumentLink, useInitialize} from "@templafy/delivery-integration-library/build/react";
-import {useOptions} from "@templafy/delivery-integration-library/build/react";
+import {useDocumentLink, useInitialize} from "@templafy/delivery-connector-library/build/react";
+import {useOptions} from "@templafy/delivery-connector-library/build/react";
 
-export const MockConnectorReact: FunctionComponent = () => {
+export const MockControllerReact: FunctionComponent = () => {
     const {authenticationState, setAuthenticationNeeded, isInitialized} = useInitialize();
     const {documentLink, uploadComplete} = useDocumentLink();
     const {sendCanUpload} = useOptions();
@@ -13,7 +13,7 @@ export const MockConnectorReact: FunctionComponent = () => {
         }
         setAuthenticationNeeded({
             shouldAuthenticate: true,
-            authenticationUrl: "https://templafy.templafy-local.com/mock-connector/login"
+            authenticationUrl: "https://www.example.com/templafy-connector/login"
         });
     }, [isInitialized, setAuthenticationNeeded])
 
@@ -29,7 +29,7 @@ export const MockConnectorReact: FunctionComponent = () => {
 
     return (
         <>
-            <h1>Hello from the Mock Connector</h1>
+            <h1>Hello from the Mock Controller</h1>
             <button onClick={() => reportReady()}> Select options</button>
         </>
     );

@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from "react";
-import {Templafy} from "@templafy/delivery-integration-library";
+import {Templafy} from "@templafy/delivery-connector-library";
 
 export const MockPopUpPlaintTypeScript: FunctionComponent = () => {
     const sendAuthenticationMessage = (authenticationSuccessful: boolean) => {

@@ -1,7 +1,7 @@
 import React, {FunctionComponent, useEffect, useState} from "react";
-import {Templafy} from "@templafy/delivery-integration-library/build";
+import {Templafy} from "@templafy/delivery-connector-library/build";
 
-export const MockConnectorPlainTypeScript: FunctionComponent = () => {
+export const MockControllerPlainTypeScript: FunctionComponent = () => {
     const [authenticationState, setAuthenticationState] = useState<unknown | null>(null);
 
     useEffect(() => {
@@ -11,7 +11,7 @@ export const MockConnectorPlainTypeScript: FunctionComponent = () => {
     async function initialize() {
         const {authenticationState} = await Templafy.initialize({
             shouldAuthenticate: true,
-            authenticationUrl: "https://templafy.templafy-local.com/ui/integrations/playground/mock-connector-imperative/login",
+            authenticationUrl: "https://www.example.com/templafy-connector/login",
         });
         setAuthenticationState(authenticationState);
     }
@@ -25,7 +25,7 @@ export const MockConnectorPlainTypeScript: FunctionComponent = () => {
 
     return (
         <>
-            <h1>Hello from the Imperative Mock Connector</h1>
+            <h1>Hello from the Imperative Mock Controller</h1>
             <button onClick={() => setIsReady()}>
                 Select options
             </button>
