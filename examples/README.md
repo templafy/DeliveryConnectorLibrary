@@ -1,13 +1,13 @@
 # Flow
-This page describes the interaction between the Generic Delivery Integration, Templafy and the user.
+This page describes the interaction between the Generic Delivery Connector, Templafy and the user.
 
 ### Initialize
-* The user clicks the Generic Delivery Integration.
+* The user clicks the Generic Delivery Connector.
 ![Example screenshot of the Templafy Composer page where Open in Custom Delivery has been selected and an Authenticate button is shown.](./images/1.png)
 
 An iframe will be rendered in the background pointing towards the `Base URL` specified in the settings.
-This URL should host the Delivery Connector.
-The Connector first needs to be initialized using:
+This URL should host the Delivery Controller.
+The Controller first needs to be initialized using:
 
 **React:**
 ``` ts
@@ -20,7 +20,7 @@ Templafy.initialize();
 ```
 
 ### Check authentication needed
-* The integration should then let Templafy know whether to show an authentication popup using:
+* The controller should then let Templafy know whether to show an authentication popup using:
 
 **React:**
 ``` ts
@@ -42,7 +42,7 @@ await Templafy.initialize({shouldAuthenticate, authenticationUrl});
 
 ![Example screenshot of the Templafy Composer page with an authentication popup open.](./images/2.png)
 
-There is a possibility to pass some arbitrary state to the Delivery Connector.
+There is a possibility to pass some arbitrary state to the Delivery Controller.
 This will be available from:
 
 **React:**
@@ -55,13 +55,13 @@ const {authenticationState} = useInitialize();
 const {authenticationState} = await Templafy.initialize();
 ```
 
-* Once the user clicks the Open/Share/Save button, the Delivery Connector will be shown.
+* Once the user clicks the Open/Share/Save button, the Delivery Controller will be shown.
 
-![Example screenshot of the Templafy Composer page after authentication where an Open in Custom Delivery Integration button is shown.](./images/3.png)
+![Example screenshot of the Templafy Composer page after authentication where an Open in Custom Delivery Connector button is shown.](./images/3.png)
 
 ### Requesting input
-* The Delivery Connector can now ask for user input.
-Once all required input is gathered, the Delivery Connector can report that it's ready to upload using:
+* The Delivery Controller can now ask for user input.
+Once all required input is gathered, the Delivery Controller can report that it's ready to upload using:
 
 **React:**
 ``` ts
@@ -74,12 +74,12 @@ sendCanUpload(canupload: true);
 Templafy.sendCanUpload({canUpload: true});
 ```
 
-![Example screenshot of the Templafy Composer page showing a mock connector with a button to mark as ready.](./images/4.png)
-![Example screenshot of the Templafy Composer page showing a mock connector that has been marked as ready and an enabled button to Open in Custom Delivery Integration.](./images/5.png)
+![Example screenshot of the Templafy Composer page showing a mock controller with a button to mark as ready.](./images/4.png)
+![Example screenshot of the Templafy Composer page showing a mock controller that has been marked as ready and an enabled button to Open in Custom Delivery Connector.](./images/5.png)
 
 
 ### Handling created document
-* At this point, a loading screen will be shown and the Delivery Connector will be sent a download URL pointing to the created document.
+* At this point, a loading screen will be shown and the Delivery Controller will be sent a download URL pointing to the created document.
 It can be retrieved using:
 
 **React:**
@@ -93,7 +93,7 @@ const documentUrl = await Templafy.getDocumentUrl();
 ```
 
 ### Redirecting the user
-After the Delivery Connector has completed the upload, it can redirect the main window to
+After the Delivery Controller has completed the upload, it can redirect the main window to
 the location of the document using:
 
 **React:**

@@ -7,7 +7,7 @@ pool:
   vmImage: ubuntu-18.04
 
 variables:
-  - group: DeliveryIntegrationLibrary
+  - group: DeliveryConnectorLibrary
 
 steps:
   - task: UseGitVersion@5
@@ -32,5 +32,5 @@ steps:
     workingDirectory: ./build
     displayName: 'Yarn publish'
 
-  - script: 'git push https://$(GitHubToken)@github.com/templafy/DeliveryIntegrationLibrary.git'
+  - script: 'git push https://$(GitHubToken)@github.com/templafy/DeliveryConnectorLibrary.git'
     displayName: Push to GitHub
