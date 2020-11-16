@@ -8,6 +8,12 @@ import {AuthenticateCompleteMessage, CanUploadMessage, DeliverDocumentMessage} f
 
 const defaultTimeoutMs = 200_000;
 
+declare global {
+    interface External  {
+        OAuth2Callback: (state: string) => void;
+    }
+}
+
 export namespace Templafy {
     /**
      * @return A promise that will resolve with the documentURL once the user clicks the `save` button.
@@ -46,8 +52,12 @@ export namespace Templafy {
      * @param {Omit<AuthenticateCompleteMessage, "type">} message
      * */
     export const sendAuthenticationComplete = async (message: Omit<AuthenticateCompleteMessage, "type">) => {
-        await initializeHost();
-        sendPostMessageFunctionOpener({type: "authenticateComplete", ...message});
+        if ("OAuth2Callback" in window.external) {
+            window.external.OAuth2Callback(JSON.stringify(message));
+        } else {
+            await initializeHost();
+            sendPostMessageFunctionOpener({type: "authenticateComplete", ...message});
+        }
     };
 
     /**
