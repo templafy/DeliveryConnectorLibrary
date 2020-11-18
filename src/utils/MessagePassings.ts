@@ -3,28 +3,8 @@ import {updateRelationship, getValidOriginRegExp, windowMap} from "./GlobalVars"
 
 export type PostMessageHandler<T extends PostMessageMessage> = (ev: TemplafyMessageEvent<T>) => void;
 
-export interface DoneUploadingMessage {
-    type: "doneUploading";
-    documentLocation: string;
-}
-
-export interface DeliverDocumentMessage {
-    type: "deliverDocument";
-    documentUrl: string;
-}
-
-export interface ShouldAuthenticateMessage {
-    type: "shouldAuthenticate";
-    shouldAuthenticate: boolean;
-    authenticationUrl: string;
-}
-
 export interface AcknowledgeMessage {
     type: "acknowledge";
-}
-
-export interface InitializeMessage {
-    type: "initialize";
 }
 
 export interface AuthenticateCompleteMessage {
@@ -35,16 +15,49 @@ export interface AuthenticateCompleteMessage {
 
 export interface CanUploadMessage {
     type: "canUpload";
-    canUpload: boolean;
+    locationDisplayName?: string;
 }
+
+export interface ClearNextMessage {
+    type: "clearNext"
+}
+
+export interface DoneUploadingMessage {
+    type: "doneUploading";
+    documentLocation: string;
+}
+
+export interface DeliverDocumentMessage {
+    type: "deliverDocument";
+    documentUrl: string;
+}
+
+export interface InitializeMessage {
+    type: "initialize";
+}
+
+export interface RequireInputMessage {
+    type: "requireInput";
+}
+
+export type ShouldAuthenticateMessage = {
+    type: "shouldAuthenticate";
+    shouldAuthenticate: false;
+} | {
+    type: "shouldAuthenticate";
+    authenticationUrl: string;
+    shouldAuthenticate: true;
+};
 
 export type PostMessageMessage =
     | AcknowledgeMessage
     | AuthenticateCompleteMessage
     | CanUploadMessage
+    | ClearNextMessage
     | DeliverDocumentMessage
     | DoneUploadingMessage
     | InitializeMessage
+    | RequireInputMessage
     | ShouldAuthenticateMessage
     ;
 

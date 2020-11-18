@@ -1,6 +1,6 @@
 import {getSendPostMessageFunction, getPostMessageAwaiter} from "./MessagePassings";
 
-export const sendPostMessageFunctionParent = getSendPostMessageFunction(window.parent);
+export const sendPostMessageToParent = getSendPostMessageFunction(window.parent);
 export const sendPostMessageFunctionOpener = getSendPostMessageFunction(window.opener);
 
 const wildcardSendPostMessageFunctionOpener = getSendPostMessageFunction(window.opener, () => "*");
