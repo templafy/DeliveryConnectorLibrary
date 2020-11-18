@@ -5,22 +5,29 @@ export const MockControllerPlainTypeScript: FunctionComponent = () => {
     const [authenticationState, setAuthenticationState] = useState<unknown | null>(null);
 
     useEffect(() => {
-        void initialize();
+        (async () => {
+            await Templafy.initialize();
+            Templafy.sendShouldAuthenticate({
+                shouldAuthenticate: true,
+                authenticationUrl: "https://www.example.com/templafy-connector/login"
+            });
+            await handleAuthenticationResult()
+        })();
     }, [])
 
-    async function initialize() {
-        const {authenticationState} = await Templafy.initialize({
-            shouldAuthenticate: true,
-            authenticationUrl: "https://www.example.com/templafy-connector/login",
-        });
+    const handleAuthenticationResult = async () => {
+        let authenticationState = await Templafy.getAuthenticationState();
+        while (!authenticationState.authenticationSuccessful) {
+            authenticationState = await Templafy.getAuthenticationState();
+        }
         setAuthenticationState(authenticationState);
     }
 
     async function setIsReady() {
-        Templafy.sendCanUpload({canUpload: true});
-        const documentUrl = await Templafy.getDocumentUrl();
+        Templafy.sendCanUpload({});
+        await Templafy.getDocumentUrl();
         // Perform some action to save the document to custom system.
-        Templafy.uploadComplete("https://LOCATION_OF_DOCUMENT");
+        Templafy.sendUploadComplete("https://LOCATION_OF_DOCUMENT");
     }
 
     return (

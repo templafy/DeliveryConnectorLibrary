@@ -1,9 +1,9 @@
 import React, {FunctionComponent} from "react";
-import {sendAuthenticationComplete} from "@templafy/delivery-connector-library/build/react";
+import {Templafy} from "@templafy/delivery-connector-library/build";
 
 export const MockPopUpReact: FunctionComponent = () => {
     const sendAuthenticationMessage = (authenticationSuccessful: boolean) => {
-        sendAuthenticationComplete({authenticationSuccessful, state: "<placeholderstate>"});
+        Templafy.sendAuthenticationComplete({authenticationSuccessful, state: "<placeholderstate>"});
     };
 
     return (

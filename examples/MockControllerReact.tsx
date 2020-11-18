@@ -1,30 +1,29 @@
 import React, {FunctionComponent, useEffect} from "react";
 import {useDocumentLink, useInitialize} from "@templafy/delivery-connector-library/build/react";
 import {useOptions} from "@templafy/delivery-connector-library/build/react";
+import {Templafy} from "@templafy/delivery-connector-library/build";
 
 export const MockControllerReact: FunctionComponent = () => {
-    const {authenticationState, setAuthenticationNeeded, isInitialized} = useInitialize();
-    const {documentLink, uploadComplete} = useDocumentLink();
-    const {sendCanUpload} = useOptions();
+    const {authenticationState, isInitialized} = useInitialize();
+    const {documentLink} = useDocumentLink();
 
     useEffect(() => {
         if(!isInitialized){
             return;
         }
-        setAuthenticationNeeded({
+        Templafy.sendShouldAuthenticate({
             shouldAuthenticate: true,
             authenticationUrl: "https://www.example.com/templafy-connector/login"
         });
-    }, [isInitialized, setAuthenticationNeeded])
-
+    }, [isInitialized])
 
     const reportReady = () => {
-        sendCanUpload({canUpload: true});
+        Templafy.sendCanUpload({canUpload: true});
     }
 
     if (documentLink) {
         // Perform some action to save the document to custom system.
-        uploadComplete("https://LOCATION_OF_DOCUMENT");
+        Templafy.sendUploadComplete("https://LOCATION_OF_DOCUMENT");
     }
 
     return (

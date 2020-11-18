@@ -1,4 +1,4 @@
-import {initializeHost, sendPostMessageFunctionParent} from "./utils/Host";
+import {initializeHost, sendPostMessageToParent} from "./utils/Host";
 import {useCallback, useEffect, useState} from "react";
 import {useHandleMessages} from "./utils/MessageHandlerHook";
 import {Templafy} from "./index";
@@ -13,58 +13,41 @@ async function initialize(setIsInitialized: (isInitialized: boolean) => void) {
  * @return {UseInitializeResult<T>>}
  * */
 export const useInitialize = <TAuthState>(): UseInitializeResult<TAuthState> => {
-    const [isAuthenticationComplete, setIsAuthenticationComplete] = useState<boolean>(false);
     const [isInitialized, setIsInitialized] = useState<boolean>(false);
-    const [authenticationState, setAuthenticationState] = useState<TAuthState | null>(null);
+    const [authenticationState, setAuthenticationState] = useState<AuthenticationState<TAuthState> | null>(null);
 
     useEffect(() => {
         void initialize(setIsInitialized);
     }, []);
 
-    const setAuthenticationNeeded = useCallback((authenticationNeededDto: AuthenticationNeeded) => {
-        sendPostMessageFunctionParent({type: "shouldAuthenticate", ...authenticationNeededDto});
-    }, []);
-
     useHandleMessages(({data}) => {
-        if (data.type !== "authenticateComplete" || !data.authenticationSuccessful) {
+        if (data.type !== "authenticateComplete") {
             return;
         }
-        setAuthenticationState(data.state as TAuthState);
-        setIsAuthenticationComplete(true);
-        sendPostMessageFunctionParent({
-            type: "shouldAuthenticate",
-            shouldAuthenticate: !data.authenticationSuccessful,
-            authenticationUrl: ""
+        setAuthenticationState({
+            authenticationState: data.state as TAuthState,
+            authenticationSuccessful: data.authenticationSuccessful
         });
-    }, [setAuthenticationState, setIsAuthenticationComplete]);
+    }, [setAuthenticationState]);
 
-    return {isAuthenticationComplete, authenticationState, setAuthenticationNeeded, isInitialized};
+    return {authenticationState, isInitialized};
 };
 
 /**
  *
- * @return {function} uploadComplete A function that can be called to notify Templafy that the upload has completed.
  * The user will be navigated to the URL provided.
  * @return {string | null} documentLink
  * */
-export const useDocumentLink = () => {
-    const [documentLink, setDocumentLink] = useState<string | null>(null);
+export const useDocumentUrl = () => {
+    const [documentUrl, setDocumentUrl] = useState<string | null>(null);
 
     useHandleMessages(ev => {
         if (ev.data.type === "deliverDocument") {
-            setDocumentLink(ev.data.documentUrl);
+            setDocumentUrl(ev.data.documentUrl);
         }
     });
 
-    return {documentLink, uploadComplete: Templafy.uploadComplete};
-};
-
-/**
- * Reports to Templafy that the page hosted in the iframe is ready to receive the documentURL.
- * This is meant for waiting for user input.
- * */
-export const useOptions = () => {
-    return {sendCanUpload: Templafy.sendCanUpload};
+    return {documentUrl: documentUrl};
 };
 
 /**
@@ -74,21 +57,7 @@ export const useOptions = () => {
  * */
 export const sendAuthenticationComplete = Templafy.sendAuthenticationComplete;
 
-interface AuthenticationNeeded {
-    shouldAuthenticate: boolean;
-    authenticationUrl: string;
-}
-
-interface UseInitializeResult<T> {
-    /**
-     *  Whether or not the authentication is complete.
-     *  */
-    isAuthenticationComplete: boolean;
-    /**
-     * Notify Templafy if authentication is needed.
-     * This will prompt Templafy to show the user a pop-up on clicking the proceed button.
-     * */
-    setAuthenticationNeeded: (authenticationNeeded:AuthenticationNeeded) => void;
+interface UseInitializeResult<TAuthState> {
     /**
      * Whether or not the initialization of the library is complete.
      * */
@@ -96,5 +65,17 @@ interface UseInitializeResult<T> {
     /**
      * The authentication-state set by the authentication pop-up.
      * */
-    authenticationState: T | null;
+    authenticationState: AuthenticationState<TAuthState> | null;
+}
+
+interface AuthenticationState<TAuthState> {
+
+    /**
+     * State passed by the authentication popup
+     * */
+    authenticationState: TAuthState;
+    /**
+     * Whether the last authentication attempt reported success.
+     * */
+    authenticationSuccessful: boolean;
 }

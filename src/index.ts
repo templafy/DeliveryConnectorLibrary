@@ -1,7 +1,7 @@
 import {
     initializeHost,
     sendPostMessageFunctionOpener,
-    sendPostMessageFunctionParent,
+    sendPostMessageToParent,
     waitForPostMessage
 } from "./utils/Host";
 import {AuthenticateCompleteMessage, CanUploadMessage, DeliverDocumentMessage} from "./utils/MessagePassings";
@@ -9,7 +9,7 @@ import {AuthenticateCompleteMessage, CanUploadMessage, DeliverDocumentMessage} f
 const defaultTimeoutMs = 200_000;
 
 declare global {
-    interface External  {
+    interface External {
         OAuth2Callback: (state: string) => void;
     }
 }
@@ -25,27 +25,33 @@ export namespace Templafy {
 
     /**
      * Initializes the connector. This call must be completed before any of the other API's can be used.
-     * @param {InitializeParams} initializeParams
-     * @param {number} timeoutMs the timeout for initializing. Defaults to 200000 ms.
      * */
-    export const initialize = async ({shouldAuthenticate, authenticationUrl}: InitializeParams, timeoutMs: number = defaultTimeoutMs) => {
+    export const initialize = async () => {
         await initializeHost();
-
-        sendPostMessageFunctionParent({type: "shouldAuthenticate", shouldAuthenticate, authenticationUrl});
-        if (!shouldAuthenticate) {
-            return {authenticationState: null};
-        }
-        const {state, authenticationSuccessful} = await waitForPostMessage<AuthenticateCompleteMessage>("authenticateComplete", timeoutMs);
-        if (!authenticationSuccessful) {
-            throw new Error("Authentication failed");
-        }
-        sendPostMessageFunctionParent({
-            type: "shouldAuthenticate",
-            shouldAuthenticate: false,
-            authenticationUrl
-        });
-        return {authenticationState: state};
     };
+
+    /**
+     * @param params {ShouldAuthenticateParams}
+     * */
+    export const sendShouldAuthenticate = (params: ShouldAuthenticateParams) => {
+        sendPostMessageToParent({type: "shouldAuthenticate", ...params})
+    }
+
+    /**
+     * @param {number} timeoutMs timeout for waiting for authenticationResult. Defaults to 200000 ms.
+     * */
+    export const getAuthenticationState = async <T>(timeoutMs: number = defaultTimeoutMs) => {
+        const {state, authenticationSuccessful} = await waitForPostMessage<AuthenticateCompleteMessage>("authenticateComplete", timeoutMs);
+        return {authenticationState: state as T, authenticationSuccessful} ;
+    }
+
+    /**
+     * Sets that the next action is to show the content of the Delivery Controller
+     * */
+    export const sendRequireInput = () => {
+        sendPostMessageToParent({type: "requireInput"})
+    }
+
     /**
      * Reports to Templafy that the authentication was completed. This call can only be used from the authentication pop-up.
      * Allows for arbitrary data to be sent from the pop-up to the window hosted inside the Templafy page.
@@ -61,11 +67,18 @@ export namespace Templafy {
     };
 
     /**
+     *  Clears the next action. This implicitly disables the button.
+     * */
+    export const sendClearButton = () => {
+        sendPostMessageToParent({type: "clearNext"});
+    }
+
+    /**
      * Reports to Templafy that the upload of a document has completed.
      * @param {string} documentLocation the location that is to be opened by templafy. Should be a URL that points to the uploaded document.
      * */
-    export const uploadComplete = (documentLocation: string) => {
-        sendPostMessageFunctionParent({type: "doneUploading", documentLocation});
+    export const sendUploadComplete = (documentLocation: string) => {
+        sendPostMessageToParent({type: "doneUploading", documentLocation});
     };
 
     /**
@@ -73,12 +86,12 @@ export namespace Templafy {
      * This is meant for waiting for user input.
      * @param {Omit<CanUploadMessage, "type">} canUploadMessage
      * */
-    export const sendCanUpload = (canUploadMessage: Omit<CanUploadMessage, "type">) => {
-        sendPostMessageFunctionParent({...canUploadMessage, type: "canUpload"});
+    export const sendCanUpload = (canUploadMessage: Omit<CanUploadMessage, "type"> = {}) => {
+        sendPostMessageToParent({...canUploadMessage, type: "canUpload"});
     };
 }
 
-interface InitializeParams {
+interface ShouldAuthenticateParams {
     /**
      * Whether or not Templafy should show a pop-up to authenticate the user.
      * */
