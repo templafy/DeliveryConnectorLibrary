@@ -1,11 +1,10 @@
 import React, {FunctionComponent, useEffect} from "react";
-import {useDocumentLink, useInitialize} from "@templafy/delivery-connector-library/build/react";
-import {useOptions} from "@templafy/delivery-connector-library/build/react";
+import {useDocumentUrl, useInitialize} from "@templafy/delivery-connector-library/build/react";
 import {Templafy} from "@templafy/delivery-connector-library/build";
 
 export const MockControllerReact: FunctionComponent = () => {
     const {authenticationState, isInitialized} = useInitialize();
-    const {documentLink} = useDocumentLink();
+    const {documentUrl} = useDocumentUrl();
 
     useEffect(() => {
         if(!isInitialized){
@@ -18,10 +17,10 @@ export const MockControllerReact: FunctionComponent = () => {
     }, [isInitialized])
 
     const reportReady = () => {
-        Templafy.sendCanUpload({canUpload: true});
+        Templafy.sendCanUpload({});
     }
 
-    if (documentLink) {
+    if (documentUrl) {
         // Perform some action to save the document to custom system.
         Templafy.sendUploadComplete("https://LOCATION_OF_DOCUMENT");
     }
