@@ -12,6 +12,21 @@ declare global {
     interface External {
         OAuth2Callback: (state: string) => void;
     }
+
+    interface Window {
+        chrome?: {
+            webview?: {
+                hostObjects: {
+                    sync: {
+                        bridge: {
+                            ExecuteMethod: (methodName: "OAuth2Callback", invocationId: string, args: [string]) => Promise<void>
+                        };
+                    };
+                };
+            };
+
+        };
+    }
 }
 
 export namespace Templafy {
@@ -58,7 +73,10 @@ export namespace Templafy {
      * @param {Omit<AuthenticateCompleteMessage, "type">} message
      * */
     export const sendAuthenticationComplete = async (message: Omit<AuthenticateCompleteMessage, "type">) => {
-        if ("OAuth2Callback" in window.external) {
+        if (window.chrome?.webview) {
+            const bridgeClientId = `client_v2_${Math.random().toString(36).substring(2)}${(new Date()).getTime().toString(36)}`;
+            window.chrome.webview.hostObjects.sync.bridge.ExecuteMethod("OAuth2Callback", bridgeClientId, [JSON.stringify(message)]);
+        } else if ("OAuth2Callback" in window.external) {
             window.external.OAuth2Callback(JSON.stringify(message));
         } else {
             await initializeHost();
