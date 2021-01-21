@@ -7,7 +7,7 @@ pool:
   vmImage: ubuntu-18.04
 
 variables:
-  - group: DeliveryConnectorLibrary
+  - group: ConnectorLibraries
 
 steps:
   - task: UseGitVersion@5
