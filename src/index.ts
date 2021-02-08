@@ -24,7 +24,6 @@ declare global {
                     };
                 };
             };
-
         };
     }
 }

@@ -6,14 +6,14 @@
   "bugs": "https://github.com/templafy/DeliveryConnectorLibrary/issues",
   "repository": "github:templafy/DeliveryConnectorLibrary",
   "license": "MIT",
-  "main": "build/index.js",
+  "main": "index.js",
   "scripts": {
     "prepublishOnly": "yarn build",
-    "build": "tsc"
+    "build": "tsc && cp package.json ./build/package.json || copy package.json build\\package.json"
   },
-  "types": "build/index.d.ts",
+  "types": "index.d.ts",
   "files": [
-    "/build"
+    "."
   ],
   "peerDependencies": {
     "react": "^16.9.0"
