@@ -68,6 +68,20 @@ export namespace Templafy {
     }
 
     /**
+     * Sets that the next action is to show the content of the Delivery Controller, but allowing the user to immediately proceed
+     * */
+    export const sendRequestOptionalInput = () => {
+        sendPostMessageToParent({type: "requestOptionalInput"})
+    }
+
+    /**
+     * Shows an error to the user
+     * */
+    export const sendError = (message: string) => {
+        sendPostMessageToParent({type: "error", message})
+    }
+
+    /**
      * Reports to Templafy that the authentication was completed. This call can only be used from the authentication pop-up.
      * Allows for arbitrary data to be sent from the pop-up to the window hosted inside the Templafy page.
      * @param {Omit<AuthenticateCompleteMessage, "type">} message

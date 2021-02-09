@@ -32,8 +32,17 @@ export interface DeliverDocumentMessage {
     documentUrl: string;
 }
 
+export interface ErrorMessage {
+    type: "error";
+    message: string;
+}
+
 export interface InitializeMessage {
     type: "initialize";
+}
+
+export interface RequestOptionalInputMessage {
+    type: "requestOptionalInput";
 }
 
 export interface RequireInputMessage {
@@ -56,7 +65,9 @@ export type PostMessageMessage =
     | ClearNextMessage
     | DeliverDocumentMessage
     | DoneUploadingMessage
+    | ErrorMessage
     | InitializeMessage
+    | RequestOptionalInputMessage
     | RequireInputMessage
     | ShouldAuthenticateMessage
     ;
