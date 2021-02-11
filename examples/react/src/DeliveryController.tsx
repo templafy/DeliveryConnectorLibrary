@@ -3,7 +3,7 @@ import { useDocumentUrl, useInitialize } from "@templafy/delivery-connector-libr
 import { Templafy } from "@templafy/delivery-connector-library";
 import { CustomAuthenticationState } from "./CustomAuthenticationState";
 
-export const MockControllerReact: FunctionComponent = () => {
+export const DeliveryController: FunctionComponent = () => {
     const { authenticationState, isInitialized } = useInitialize<CustomAuthenticationState>();
     const { documentUrl } = useDocumentUrl();
 

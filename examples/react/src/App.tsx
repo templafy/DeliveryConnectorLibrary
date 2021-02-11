@@ -1,7 +1,7 @@
 import React from 'react';
-import { MockControllerReact } from './MockControllerReact';
+import { DeliveryController } from './DeliveryController';
 import { BrowserRouter, Route } from "react-router-dom";
-import { MockPopUpReact } from './MockPopUpReact';
+import { Login } from './Login';
 
 function App() {
   return (
@@ -9,12 +9,12 @@ function App() {
       <Route
         path="/"
         exact={true}
-        component={MockControllerReact} />
+        component={DeliveryController} />
       <Route />
       <Route
         path="/login"
         exact={true}
-        component={MockPopUpReact} />
+        component={Login} />
       <Route />
     </BrowserRouter>
   );

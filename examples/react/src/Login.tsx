@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import { Templafy } from "@templafy/delivery-connector-library";
 import { CustomAuthenticationState } from "./CustomAuthenticationState";
 
-export const MockPopUpReact: FunctionComponent = () => {
+export const Login: FunctionComponent = () => {
     const sendAuthenticationSuccess = () => {
         const successfulAuthenticationState: CustomAuthenticationState = {
             isUserAuthenticated: true

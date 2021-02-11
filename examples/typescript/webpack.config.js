@@ -6,7 +6,7 @@ const { merge } = require("webpack-merge");
 
 const base = {
   entry: {
-    index: "index.ts",
+    deliveryController: "DeliveryController.ts",
     login: "login.ts",
   },
   context: path.resolve(__dirname, "src"),
@@ -31,14 +31,14 @@ const base = {
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       filename: "index.html",
-      template: "index.html",
+      template: "DeliveryController.html",
       inject: "body",
       scriptLoading: "defer",
-      chunks: ["index"],
+      chunks: ["deliveryController"],
     }),
     new HtmlWebpackPlugin({
       filename: "login.html",
-      template: "login.html",
+      template: "Login.html",
       inject: "body",
       scriptLoading: "defer",
       chunks: ["login"],
