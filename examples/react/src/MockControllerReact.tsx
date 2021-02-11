@@ -1,14 +1,14 @@
-import React, {FunctionComponent, useEffect} from "react";
-import {useDocumentUrl, useInitialize} from "@templafy/delivery-connector-library/react";
-import {Templafy} from "@templafy/delivery-connector-library";
+import React, { FunctionComponent, useEffect } from "react";
+import { useDocumentUrl, useInitialize } from "@templafy/delivery-connector-library/react";
+import { Templafy } from "@templafy/delivery-connector-library";
 import { CustomAuthenticationState } from "./CustomAuthenticationState";
 
 export const MockControllerReact: FunctionComponent = () => {
-    const {authenticationState, isInitialized} = useInitialize<CustomAuthenticationState>();
-    const {documentUrl} = useDocumentUrl();
+    const { authenticationState, isInitialized } = useInitialize<CustomAuthenticationState>();
+    const { documentUrl } = useDocumentUrl();
 
     useEffect(() => {
-        if(!isInitialized){
+        if (!isInitialized) {
             return;
         }
 
@@ -20,7 +20,7 @@ export const MockControllerReact: FunctionComponent = () => {
     }, [isInitialized]);
 
     useEffect(() => {
-        if(!isInitialized || !authenticationState?.authenticationState?.isUserAuthenticated){
+        if (!isInitialized || !authenticationState?.authenticationState?.isUserAuthenticated) {
             return;
         }
 
@@ -31,7 +31,7 @@ export const MockControllerReact: FunctionComponent = () => {
     }, [isInitialized, authenticationState]);
 
     useEffect(() => {
-        if(!isInitialized || !documentUrl){
+        if (!isInitialized || !documentUrl) {
             return;
         }
 

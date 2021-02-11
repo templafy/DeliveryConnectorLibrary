@@ -3,12 +3,12 @@ import { CustomAuthenticationState } from './CustomAuthenticationState';
 
 (async () => {
     await Templafy.initialize();
-  
+
     Templafy.sendShouldAuthenticate({
-      shouldAuthenticate: true,
-      authenticationUrl: "https://localhost:3000/login.html",
+        shouldAuthenticate: true,
+        authenticationUrl: "https://localhost:3000/login.html",
     });
-  
+
     await handleAuthenticationResult();
 
     await handleDocumentUrl();
@@ -17,13 +17,13 @@ import { CustomAuthenticationState } from './CustomAuthenticationState';
 
 async function handleAuthenticationResult() {
     let authenticationState = await Templafy.getAuthenticationState<CustomAuthenticationState>();
-  
+
     while (!authenticationState?.authenticationState?.isUserAuthenticated) {
-      authenticationState = await Templafy.getAuthenticationState<CustomAuthenticationState>();
+        authenticationState = await Templafy.getAuthenticationState<CustomAuthenticationState>();
     }
-  
+
     // process/save authenticationState
-  
+
     // Let Templafy know that input is required from the user.
     Templafy.sendRequireInput();
 }

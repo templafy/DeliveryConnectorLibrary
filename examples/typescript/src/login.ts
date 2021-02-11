@@ -6,7 +6,7 @@ setAllowedOrigins([
     "https://*.templafy-local.com",
     "https://*.templafy.com",
     "https://*.hive.templafy.com"
-  ]);
+]);
 
 export function sendAuthenticationSuccess() {
     const successfulAuthenticationState: CustomAuthenticationState = {
@@ -14,12 +14,12 @@ export function sendAuthenticationSuccess() {
     };
 
     // Let Templafy know that authentication was successful and pass along authentication state
-    Templafy.sendAuthenticationComplete({authenticationSuccessful: true, state: successfulAuthenticationState});
+    Templafy.sendAuthenticationComplete({ authenticationSuccessful: true, state: successfulAuthenticationState });
 };
 
 export function sendAuthenticationFailed() {
     // Let Templafy know that authentication was unsuccessful and pass along error information
-    Templafy.sendAuthenticationComplete({authenticationSuccessful: false, state: "<placeholderstate>"});
+    Templafy.sendAuthenticationComplete({ authenticationSuccessful: false, state: "<placeholderstate>" });
 };
 
 (() => {

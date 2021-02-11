@@ -1,21 +1,21 @@
 import React from 'react';
-import {MockControllerReact} from './MockControllerReact';
-import {BrowserRouter, Route} from "react-router-dom";
-import {MockPopUpReact} from './MockPopUpReact';
+import { MockControllerReact } from './MockControllerReact';
+import { BrowserRouter, Route } from "react-router-dom";
+import { MockPopUpReact } from './MockPopUpReact';
 
 function App() {
   return (
     <BrowserRouter>
-      <Route 
+      <Route
         path="/"
         exact={true}
         component={MockControllerReact} />
-      <Route/>
-      <Route 
+      <Route />
+      <Route
         path="/login"
         exact={true}
         component={MockPopUpReact} />
-      <Route/>
+      <Route />
     </BrowserRouter>
   );
 }
