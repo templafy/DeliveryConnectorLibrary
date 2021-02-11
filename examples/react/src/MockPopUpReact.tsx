@@ -8,10 +8,12 @@ export const MockPopUpReact: FunctionComponent = () => {
             isUserAuthenticated: true
         };
 
+        // Let Templafy know that authentication was successful and pass along authentication state
         Templafy.sendAuthenticationComplete({authenticationSuccessful: true, state: successfulAuthenticationState});
     };
 
     const sendAuthenticationFailed = () => {
+        // Let Templafy know that authentication was unsuccessful and pass along error information
         Templafy.sendAuthenticationComplete({authenticationSuccessful: false, state: "<placeholderstate>"});
     };
 

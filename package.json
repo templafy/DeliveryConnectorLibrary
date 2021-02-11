@@ -11,7 +11,9 @@
     "prepublishOnly": "yarn build",
     "build": "tsc && cp package.json ./build/package.json || copy package.json build\\package.json",
     "start-react-example": "cd ./examples/react && yarn && yarn start",
-    "run-react-example": "yarn build && yarn run start-react-example"
+    "start-typescript-example": "cd ./examples/typescript && yarn && yarn start",
+    "run-react-example": "yarn build && yarn run start-react-example",
+    "run-typescript-example": "yarn build && yarn run start-typescript-example"
   },
   "types": "index.d.ts",
   "files": [

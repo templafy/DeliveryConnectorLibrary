@@ -13,8 +13,6 @@ This can be used to ask the user for additional input and to execute logic to sa
 A pop-up that points to a custom sign-in URL.
 This can be used to ask the user to login and is able to pass some arbitrary state to the Delivery Controller.
 
-Examples can be found under [Examples](./examples)
-
 ## Caveats
 All content must be served over HTTPS.
 
@@ -24,5 +22,14 @@ All content must be served over HTTPS.
 
 ### Delivery Controller
 * The Delivery Controller will be hosted in an iframe with sandbox attribute value `allow-scripts allow-forms allow-same-origin`.
-* The Controller will be hosted on a page with the `CSP` directive `frame-src` set to the origin of the `BaseURL`  specified in your Custom Delivery Connector settings.
+* The Controller will be hosted on a page with the `CSP` directive `frame-src` set to the origin of the `BaseURL` specified in your Custom Delivery Connector settings.
 This means that the controller cannot navigate outside of the original origin.
+
+## Examples
+This project includes two examples, one for Typescript and one for React.
+
+To run these examples:
+  1. Run `yarn install`
+  2. for the React example run `yarn run-react-example` or for the Typescript examples run `yarn run-typescript-example`
+
+Examples can be found under [Examples](./examples)

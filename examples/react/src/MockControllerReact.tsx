@@ -24,6 +24,8 @@ export const MockControllerReact: FunctionComponent = () => {
             return;
         }
 
+        // process/save authenticationState
+
         // Let Templafy know that input is required from the user.
         Templafy.sendRequireInput();
     }, [isInitialized, authenticationState]);
