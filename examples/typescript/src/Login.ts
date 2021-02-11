@@ -1,12 +1,5 @@
 import { Templafy } from '@templafy/delivery-connector-library';
 import { CustomAuthenticationState } from './CustomAuthenticationState';
-import { setAllowedOrigins } from "@templafy/delivery-connector-library/utils/GlobalVars";
-
-setAllowedOrigins([
-    "https://*.templafy-local.com",
-    "https://*.templafy.com",
-    "https://*.hive.templafy.com"
-]);
 
 export function sendAuthenticationSuccess() {
     const successfulAuthenticationState: CustomAuthenticationState = {
