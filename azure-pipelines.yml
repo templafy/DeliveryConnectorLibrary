@@ -1,36 +1,36 @@
 trigger:
   branches:
     include:
-      - master
+    - master
 
 pool:
-  vmImage: ubuntu-18.04
+  vmImage: ubuntu-20.04
 
 variables:
-  - group: ConnectorLibraries
+- group: ConnectorLibraries
 
 steps:
-  - task: UseGitVersion@5
-    inputs:
-      versionSpec: '5.3.7'
-      useConfigFile: true
-      configFilePath: 'git-version.yml'
+- task: UseGitVersion@5
+  inputs:
+    versionSpec: '5.3.7'
+    useConfigFile: true
+    configFilePath: 'git-version.yml'
 
-  - task: npmAuthenticate@0
-    inputs:
-      workingFile: ./.npmrc
-      customEndpoint: 'NPM JS Registry'
-    displayName: 'Npm Authenticate'
+- task: npmAuthenticate@0
+  inputs:
+    workingFile: ./.npmrc
+    customEndpoint: 'NPM JS Registry'
+  displayName: 'Npm Authenticate'
 
-  - script: yarn install
-    displayName: 'Yarn install'
+- script: yarn install
+  displayName: 'Yarn install'
 
-  - script: yarn build
-    displayName: 'Yarn build'
+- script: yarn build
+  displayName: 'Yarn build'
 
-  - script: yarn publish --new-version $(GitVersion.SemVer) --no-git-tag-version --access public
-    workingDirectory: ./build
-    displayName: 'Yarn publish'
+- script: yarn publish --new-version $(GitVersion.SemVer) --no-git-tag-version --access public
+  workingDirectory: ./build
+  displayName: 'Yarn publish'
 
-  - script: 'git push https://$(GitHubToken)@github.com/templafy/DeliveryConnectorLibrary.git'
-    displayName: Push to GitHub
+- script: 'git push https://$(GitHubToken)@github.com/templafy/DeliveryConnectorLibrary.git'
+  displayName: Push to GitHub
