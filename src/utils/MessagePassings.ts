@@ -5,6 +5,7 @@ export type PostMessageHandler<T extends PostMessageMessage> = (ev: TemplafyMess
 
 export interface AcknowledgeMessage {
     type: "acknowledge";
+    content?: unknown;
 }
 
 export interface AuthenticateCompleteMessage {
