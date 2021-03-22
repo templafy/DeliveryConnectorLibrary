@@ -1,5 +1,5 @@
-import {initializeHost, sendPostMessageToParent} from "./utils/Host";
-import {useCallback, useEffect, useState} from "react";
+import {initializeHost} from "./utils/Host";
+import {useEffect, useState} from "react";
 import {useHandleMessages} from "./utils/MessageHandlerHook";
 import {Templafy} from "./index";
 
@@ -11,7 +11,7 @@ async function initialize(setIsInitialized: (isInitialized: boolean) => void) {
 
 /**
  * Initializes the connector. This call must be completed before any of the other API's can be used.
- * @return {UseInitializeResult<T>>}
+ * @return {UseInitializeResult<TAuthState, TContentType>}
  * */
 export const useInitialize = <TAuthState, TContentType = {}>(): UseInitializeResult<TAuthState, TContentType> => {
     const [isInitialized, setIsInitialized] = useState<boolean>(false);
