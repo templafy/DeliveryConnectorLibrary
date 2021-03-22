@@ -1,23 +1,33 @@
-import {initializeHost, sendPostMessageToParent} from "./utils/Host";
-import {useCallback, useEffect, useState} from "react";
+import {initializeHost} from "./utils/Host";
+import {useEffect, useState} from "react";
 import {useHandleMessages} from "./utils/MessageHandlerHook";
 import {Templafy} from "./index";
 
 async function initialize(setIsInitialized: (isInitialized: boolean) => void) {
-    await initializeHost();
+    const message = await initializeHost();
     setIsInitialized(true);
+    return message;
 }
 
 /**
  * Initializes the connector. This call must be completed before any of the other API's can be used.
- * @return {UseInitializeResult<T>>}
+ * @return {UseInitializeResult<TAuthState, TContentType>}
  * */
-export const useInitialize = <TAuthState>(): UseInitializeResult<TAuthState> => {
+export const useInitialize = <TAuthState, TContentType = {}>(): UseInitializeResult<TAuthState, TContentType> => {
     const [isInitialized, setIsInitialized] = useState<boolean>(false);
     const [authenticationState, setAuthenticationState] = useState<AuthenticationState<TAuthState> | null>(null);
+    const [content, setContent] = useState<TContentType | null>(null);
 
     useEffect(() => {
-        void initialize(setIsInitialized);
+        const handleInitialize = async () => {
+            const message = await initialize(setIsInitialized);
+            if(message.type === "acknowledge" && message.content){
+                setContent(message.content as TContentType);
+            }
+        }; 
+
+        handleInitialize();
+        
     }, []);
 
     useHandleMessages(({data}) => {
@@ -30,7 +40,7 @@ export const useInitialize = <TAuthState>(): UseInitializeResult<TAuthState> => 
         });
     }, [setAuthenticationState]);
 
-    return {authenticationState, isInitialized};
+    return {authenticationState, isInitialized, content};
 };
 
 /**
@@ -57,7 +67,7 @@ export const useDocumentUrl = () => {
  * */
 export const sendAuthenticationComplete = Templafy.sendAuthenticationComplete;
 
-interface UseInitializeResult<TAuthState> {
+interface UseInitializeResult<TAuthState, TContentType> {
     /**
      * Whether or not the initialization of the library is complete.
      * */
@@ -66,6 +76,10 @@ interface UseInitializeResult<TAuthState> {
      * The authentication-state set by the authentication pop-up.
      * */
     authenticationState: AuthenticationState<TAuthState> | null;
+    /**
+     * The content sent by the app connector.
+     */
+    content: TContentType | null; 
 }
 
 interface AuthenticationState<TAuthState> {

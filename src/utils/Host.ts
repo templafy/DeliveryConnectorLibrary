@@ -9,7 +9,7 @@ const wildcardSendPostMessageFunctionParent = getSendPostMessageFunction(window.
 export async function initializeHost() {
     wildcardSendPostMessageFunctionOpener({type: "initialize"});
     wildcardSendPostMessageFunctionParent({type: "initialize"});
-    await waitForPostMessage("acknowledge", 200_000);
+    return await waitForPostMessage("acknowledge", 200_000);
 }
 
 export const waitForPostMessage = getPostMessageAwaiter();
