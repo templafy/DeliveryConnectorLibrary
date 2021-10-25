@@ -4,7 +4,7 @@ trigger:
     - master
 
 pool:
-  vmImage: $(agentPoolVmImage)
+  name: Azure Hive Build Agent
 
 variables:
 - group: PipelineSoftwareVersions
