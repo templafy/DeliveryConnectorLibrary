@@ -11,9 +11,14 @@ variables:
 - group: ConnectorLibraries
 
 steps:
-- task: UseGitVersion@5
+- task: gitversion/setup@0
+  displayName: Install GitVersion
   inputs:
     versionSpec: '5.3.7'
+
+- task: gitversion/execute@0
+  displayName: Run GitVersion
+  inputs:
     useConfigFile: true
     configFilePath: 'git-version.yml'
 
