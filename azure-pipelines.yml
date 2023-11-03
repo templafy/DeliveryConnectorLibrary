@@ -38,7 +38,7 @@ steps:
 
 - script: |
     latestPublishedPackage=$(yarn info @templafy/delivery-connector-library@$(GitVersion.SemVer) --json | jq .data | jq  -r '.["dist-tags"]["latest"]')
-    if [ $latestPublishedPackage -eq $(GitVersion.SemVer) ]; then
+    if [ '$latestPublishedPackage' -eq '$(GitVersion.SemVer)' ]; then
       echo "Npm package with version $(GitVersion.SemVer) is already pushed."
       echo "##vso[task.setvariable variable=packageExists]true"
     else
