@@ -45,7 +45,6 @@ steps:
   parameters:
     packageName: 'delivery-connector-library'
     packageVersion: $(GitVersion.SemVer)
-  name: 
 
 - script: yarn publish --new-version $(GitVersion.SemVer) --no-git-tag-version --access public
   workingDirectory: ./build
