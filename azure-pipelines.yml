@@ -6,13 +6,6 @@ trigger:
 pool:
   name: $(kubernetesLinuxAgentPoolName)
 
-resources:
-  repositories:
-    - repository: templates
-      name: Pipelines
-      type: git
-      ref: refs/tags/0.4.19
-
 variables:
 - group: PipelineSoftwareVersions
 - group: ConnectorLibraries
@@ -43,10 +36,17 @@ steps:
 - script: yarn build
   displayName: 'Yarn build'
 
-- template: pipeline-templates/check-npm-package-exists-within-a-job.yml@templates
-  parameters:
-    packageName: 'delivery-connector-library'
-    packageVersion: $(GitVersion.SemVer)
+- script: |
+    latestPublishedPackage=$(yarn info @templafy/delivery-connector-library@$(GitVersion.SemVer) --json | jq .data | jq  -r '.["dist-tags"]["latest"]')
+    if [ $latestPublishedPackage -eq $(GitVersion.SemVer) ]; then
+      echo "Npm package with version $(GitVersion.SemVer) is already pushed."
+      echo "##vso[task.setvariable variable=packageExists]true"
+    else
+      echo "Npm package with version $(GitVersion.SemVer) is not pushed."
+      echo "##vso[task.setvariable variable=packageExists]false"
+    fi 
+    displayName: 'Yarn build'
+  displayName: 'Check if package was already published'
 
 - script: yarn publish --new-version $(GitVersion.SemVer) --no-git-tag-version --access public
   workingDirectory: ./build
