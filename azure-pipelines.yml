@@ -14,7 +14,7 @@ steps:
 - task: gitversion/setup@0
   displayName: Install GitVersion
   inputs:
-    versionSpec: '5.3.7'
+    versionSpec: '6.0.0-beta.3'
 
 - task: gitversion/execute@0
   displayName: Run GitVersion
