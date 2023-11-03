@@ -4,7 +4,7 @@ trigger:
     - master
 
 pool:
-  name: $(agentPoolName)
+  name: $(kubernetesLinuxAgentPool)
 
 variables:
 - group: PipelineSoftwareVersions
