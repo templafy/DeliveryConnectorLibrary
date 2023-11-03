@@ -6,6 +6,13 @@ trigger:
 pool:
   name: $(kubernetesLinuxAgentPoolName)
 
+resources:
+  repositories:
+    - repository: templates
+      name: Pipelines
+      type: git
+      ref: refs/tags/0.4.19
+
 variables:
 - group: PipelineSoftwareVersions
 - group: ConnectorLibraries
@@ -34,9 +41,17 @@ steps:
 - script: yarn build
   displayName: 'Yarn build'
 
+- template: pipeline-templates/check-npm-package-exists-within-a-job.yml@templates
+  parameters:
+    packageName: 'delivery-connector-library'
+    packageVersion: $(GitVersion.SemVer)
+
 - script: yarn publish --new-version $(GitVersion.SemVer) --no-git-tag-version --access public
   workingDirectory: ./build
   displayName: 'Yarn publish'
+  condition: ne (variables['packageExists'],true)
 
 - script: 'git push https://$(GitHubToken)@github.com/templafy/DeliveryConnectorLibrary.git'
   displayName: Push to GitHub
+
+  
