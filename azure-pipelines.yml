@@ -16,6 +16,8 @@ resources:
 variables:
 - group: PipelineSoftwareVersions
 - group: ConnectorLibraries
+- name: system.debug
+  value: 'true'
 
 steps:
 - task: gitversion/setup@0
@@ -49,7 +51,7 @@ steps:
 - script: yarn publish --new-version $(GitVersion.SemVer) --no-git-tag-version --access public
   workingDirectory: ./build
   displayName: 'Yarn publish'
-  condition: ne($(packageExists),true)
+  condition: ne(variables.['packageExists'],'true')
 
 - script: 'git push https://$(GitHubToken)@github.com/templafy/DeliveryConnectorLibrary.git'
   displayName: Push to GitHub
