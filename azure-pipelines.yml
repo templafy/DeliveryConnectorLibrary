@@ -4,7 +4,7 @@ trigger:
     - master
 
 pool:
-  name: $(agentPoolName)
+  name: $(kubernetesLinuxAgentPoolName)
 
 variables:
 - group: PipelineSoftwareVersions
@@ -14,7 +14,7 @@ steps:
 - task: gitversion/setup@0
   displayName: Install GitVersion
   inputs:
-    versionSpec: '5.3.7'
+    versionSpec: '6.0.0-beta.3'
 
 - task: gitversion/execute@0
   displayName: Run GitVersion
@@ -34,9 +34,22 @@ steps:
 - script: yarn build
   displayName: 'Yarn build'
 
+- script: |
+    latestPublishedPackage=$(yarn info @templafy/delivery-connector-library@$(GitVersion.SemVer) --json | jq .data | jq  -r '.["dist-tags"]["latest"]')
+    echo $latestPublishedPackage
+    if [[ $latestPublishedPackage == $(GitVersion.SemVer) ]]; then
+      echo "Npm package with version $(GitVersion.SemVer) is already pushed."
+      echo "##vso[task.setvariable variable=packageExists]true"
+    else
+      echo "Npm package with version $(GitVersion.SemVer) is not pushed."
+      echo "##vso[task.setvariable variable=packageExists]false"
+    fi 
+  displayName: 'Check if package was already published'
+
 - script: yarn publish --new-version $(GitVersion.SemVer) --no-git-tag-version --access public
   workingDirectory: ./build
   displayName: 'Yarn publish'
+  condition: ne(variables['packageExists'],'true')
 
 - script: 'git push https://$(GitHubToken)@github.com/templafy/DeliveryConnectorLibrary.git'
   displayName: Push to GitHub
