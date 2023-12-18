@@ -1,0 +1,14 @@
+branchPolicy:
+  buildValidations:
+  - buildName: DeliveryConnectorLibrary
+    manualTrigger: false
+    displayName: ''
+    pathFilters: []
+    required: true
+  statusChecks: []
+  autoReviewers:
+  - reviewer: Library
+    isGroup: true
+    pathFilters: []
+    required: true
+    numReviewers: 1
