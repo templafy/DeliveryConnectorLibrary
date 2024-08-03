@@ -1,5 +1,5 @@
 owners:
-  - Library
+  - Create
 branchPolicy:
   buildValidations:
   - buildName: DeliveryConnectorLibrary
@@ -9,7 +9,7 @@ branchPolicy:
     required: true
   statusChecks: []
   autoReviewers:
-  - reviewer: Library
+  - reviewer: Create
     isGroup: true
     pathFilters: []
     required: true
