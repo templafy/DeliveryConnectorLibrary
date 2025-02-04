@@ -10,18 +10,17 @@ variables:
 - group: PipelineSoftwareVersions
 - group: ConnectorLibraries
 
-steps:
-- task: gitversion/setup@0
-  displayName: Install GitVersion
-  inputs:
-    versionSpec: $(gitVersionVersion)
-    includePrerelease: true
+resources:
+  repositories:
+  - repository: templates
+    name: Pipelines
+    type: git
+    ref: refs/heads/master
 
-- task: gitversion/execute@0
-  displayName: Run GitVersion
-  inputs:
-    useConfigFile: true
-    configFilePath: 'git-version.yml'
+steps:
+- template: pipeline-templates/gitversion-task.yml@templates
+  parameters:
+    gitVersionVersion: $(gitVersionVersion)
 
 - task: npmAuthenticate@0
   inputs:
