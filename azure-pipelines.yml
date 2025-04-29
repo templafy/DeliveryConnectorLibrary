@@ -15,7 +15,7 @@ resources:
   - repository: templates
     name: Pipelines
     type: git
-    ref: refs/heads/master
+    ref: refs/tags/0.12.75
 
 steps:
 - template: pipeline-templates/gitversion-task.yml@templates
@@ -43,7 +43,7 @@ steps:
     else
       echo "Npm package with version $(GitVersion.SemVer) is not pushed."
       echo "##vso[task.setvariable variable=packageExists]false"
-    fi 
+    fi
   displayName: 'Check if package was already published'
 
 - script: yarn publish --new-version $(GitVersion.SemVer) --no-git-tag-version --access public
