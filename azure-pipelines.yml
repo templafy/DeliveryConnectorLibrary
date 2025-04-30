@@ -15,7 +15,7 @@ resources:
   - repository: templates
     name: Pipelines
     type: git
-    ref: refs/tags/0.12.75
+    ref: refs/tags/0.12.77
 
 steps:
 - template: pipeline-templates/gitversion-task.yml@templates
