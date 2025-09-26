@@ -23,6 +23,8 @@ steps:
     gitVersionVersion: $(gitVersionVersion)
 
 - template: pipeline-templates/backend/advanced-security-init.yml@templates
+  parameters:
+    language: javascript
 
 - task: npmAuthenticate@0
   inputs:
