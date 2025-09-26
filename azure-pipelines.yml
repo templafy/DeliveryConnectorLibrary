@@ -4,7 +4,7 @@ trigger:
     - master
 
 pool:
-  name: $(kubernetesLinuxAgentPoolName)
+  vmImage: ubuntu-latest
 
 variables:
 - group: PipelineSoftwareVersions
@@ -15,12 +15,16 @@ resources:
   - repository: templates
     name: Pipelines
     type: git
-    ref: refs/tags/0.12.77
+    ref: refs/tags/0.12.138
 
 steps:
 - template: pipeline-templates/gitversion-task.yml@templates
   parameters:
     gitVersionVersion: $(gitVersionVersion)
+
+- template: pipeline-templates/backend/advanced-security-init.yml@templates
+  parameters:
+    languages: javascript
 
 - task: npmAuthenticate@0
   inputs:
@@ -33,6 +37,8 @@ steps:
 
 - script: yarn build
   displayName: 'Yarn build'
+
+- template: pipeline-templates/backend/advanced-security-scan.yml@templates
 
 - script: |
     latestPublishedPackage=$(yarn info @templafy/delivery-connector-library@$(GitVersion.SemVer) --json | jq .data | jq  -r '.["dist-tags"]["latest"]')
