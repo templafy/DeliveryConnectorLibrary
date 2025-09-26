@@ -22,6 +22,8 @@ steps:
   parameters:
     gitVersionVersion: $(gitVersionVersion)
 
+- template: pipeline-templates/backend/advanced-security-init.yml@templates
+
 - task: npmAuthenticate@0
   inputs:
     workingFile: ./.npmrc
@@ -33,6 +35,8 @@ steps:
 
 - script: yarn build
   displayName: 'Yarn build'
+
+- template: pipeline-templates/backend/advanced-security-scan.yml@templates
 
 - script: |
     latestPublishedPackage=$(yarn info @templafy/delivery-connector-library@$(GitVersion.SemVer) --json | jq .data | jq  -r '.["dist-tags"]["latest"]')
