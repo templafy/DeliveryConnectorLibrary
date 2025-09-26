@@ -4,7 +4,7 @@ trigger:
     - master
 
 pool:
-  name: $(kubernetesLinuxAgentPoolName)
+  vmImage: ubuntu-latest
 
 variables:
 - group: PipelineSoftwareVersions
