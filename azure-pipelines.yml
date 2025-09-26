@@ -24,7 +24,7 @@ steps:
 
 - template: pipeline-templates/backend/advanced-security-init.yml@templates
   parameters:
-    language: javascript
+    languages: javascript
 
 - task: npmAuthenticate@0
   inputs:
