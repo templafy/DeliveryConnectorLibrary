@@ -21,3 +21,5 @@ yarn-error.log*
 # TypeScript Generator files
 /src/lib/generated/
 .idea/
+
+.claude/settings.local.json
