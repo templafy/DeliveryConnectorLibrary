@@ -1,5 +1,5 @@
 owners:
-  - Create
+  - Orange
 branchPolicy:
   buildValidations:
   - buildName: DeliveryConnectorLibrary
@@ -9,7 +9,7 @@ branchPolicy:
     required: true
   statusChecks: []
   autoReviewers:
-  - reviewer: Create
+  - reviewer: Orange
     isGroup: true
     pathFilters: []
     required: true
