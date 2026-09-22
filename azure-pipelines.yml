@@ -15,9 +15,11 @@ resources:
   - repository: templates
     name: Pipelines
     type: git
-    ref: refs/tags/0.12.138
+    ref: refs/tags/0.13.14
 
 steps:
+- template: pipeline-templates/check-text-files.yml@templates
+
 - template: pipeline-templates/gitversion-task.yml@templates
   parameters:
     gitVersionVersion: $(gitVersionVersion)
